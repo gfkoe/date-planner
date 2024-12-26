@@ -1,9 +1,19 @@
-import { findUserById, insertUser } from "./db/db.ts";
+import { findUserByEmail, insertUser, deleteUserById } from "./db/db.ts";
+
+await deleteUserById(1);
 
 await insertUser({
-  id: 1,
-  name: "Alice",
+  firstName: "Alice",
+  lastName: "Doe",
   email: "email@email.com",
   password: "pass",
 });
-const res = await findUserById(1);
+const res = await findUserByEmail("email@email.com");
+
+const newUser = {
+id: res.id,
+firstname: "Gabriel",
+lastName: "Koeb",
+email: "test@test.com"
+pass:"pass"
+}

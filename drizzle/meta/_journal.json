@@ -15,6 +15,34 @@
       "when": 1734915148241,
       "tag": "0001_colossal_sage",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1735248945886,
+      "tag": "0002_opposite_thunderbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1735249222992,
+      "tag": "0003_abandoned_molly_hayes",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1735249435975,
+      "tag": "0004_superb_stryfe",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1735249633002,
+      "tag": "0005_pink_darwin",
+      "breakpoints": true
     }
   ]
 }

@@ -1,3 +1,3 @@
 export async function GET() {
-    return Response.json("welcome to date planner")
+  return Response.json("Welcome to the  date planner api");
 }
