@@ -26,19 +26,23 @@ export async function findUserByEmail(email: string) {
   return await db.select().from(userSchema).where(eq(userSchema.email, email));
 }
 
-export async function findUserByFirstName(firstName: string) {
-  return await db
-    .select()
-    .from(userSchema)
-    .where(eq(userSchema.firstName, firstName));
-}
-
-export async function findUserByLastName(lastName: string) {
-  return await db
-    .select()
-    .from(userSchema)
-    .where(eq(userSchema.lastName, lastName));
-}
+// this does not work i dont know what i was thinking because obviously
+// people can have the same first name or the same last name.
+// I'm looking at you David Smith
+//
+//export async function findUserByFirstName(firstName: string) {
+//  return await db
+//    .select()
+//    .from(userSchema)
+//    .where(eq(userSchema.firstName, firstName));
+//}
+//
+//export async function findUserByLastName(lastName: string) {
+//  return await db
+//    .select()
+//    .from(userSchema)
+//    .where(eq(userSchema.lastName, lastName));
+//}
 
 export async function deleteUserById(userId: typeof integer) {
   return await db.delete(userSchema).where(eq(userSchema.id, userId));
