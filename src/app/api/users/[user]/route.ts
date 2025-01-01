@@ -9,14 +9,14 @@ export const GET = async (
   const userId = Number(awaitedParams.user);
 
   if (!userId) {
-    return Response.json("No user id provided");
+    return Response.json({ error: "No user id provided" }, { status: 404 });
   }
 
   const user = await findUserById(userId);
 
   if (!user) {
-    return Response.json("No user id provided");
+    return Response.json({ error: "User not found" }, { status: 404 });
   }
 
-  return Response.json({ user });
+  return Response.json(user);
 };

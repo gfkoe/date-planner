@@ -19,11 +19,12 @@ export async function insertUser(userObj: typeof userSchema) {
 }
 
 export async function findUserById(userId: number) {
-  return await db
+  const foundUsers = await db
     .select()
     .from(userSchema)
     .where(eq(userSchema.id, userId))
     .limit(1);
+  return foundUsers[0] || null;
 }
 
 export async function findUserByEmail(email: string) {
