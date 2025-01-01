@@ -1,19 +1,22 @@
 import { NextRequest } from "next/server";
 import { findUserById } from "../../../../db/db.ts";
 
-type RouteParams = { params: Promise<{ user: string }> };
+export const GET = async (
+  request: NextRequest,
+  { params }: { params: { user: string } },
+) => {
+  const awaitedParams = await params;
+  const userId = Number(awaitedParams.user);
 
-export const GET = async (request: NextRequest, { params }: RouteParams) => {
-  const { user } = await params;
+  if (!userId) {
+    return Response.json("No user id provided");
+  }
+
+  const user = await findUserById(userId);
 
   if (!user) {
     return Response.json("No user id provided");
   }
 
-  const dinosaurData = data.find(
-    (item) => item.name.toLowerCase() === dinosaur.toLowerCase(),
-  );
-  const userData = await findUserById(user);
-
-  return Response.json(userData ? userData : "No user found");
+  return Response.json({ user });
 };

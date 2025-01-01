@@ -6,6 +6,7 @@ export const users = pgTable("users", {
   lastName: text("last_name"),
   email: text().unique().notNull(),
   password: text().notNull(),
+  role: text().notNull(),
 });
 
 export const dates = pgTable("dates", {

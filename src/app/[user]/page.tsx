@@ -5,18 +5,16 @@ import { useEffect, useState } from "react";
 import { User } from "../types.ts";
 import Link from "next/link";
 
-type RouteParams = { params: Promise<{ dinosaur: string }> };
+type RouteParams = { params: Promise<{ user: string }> };
 
 export default function User({ params }: RouteParams) {
-  const selectedUser = params.then((params) => params.user);
-
-  const [user, setUser] = useState<User>({ firstName: "", lastName: "" });
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     (async () => {
-      const resp = await fetch(`/api/users/${await selectedUser}`);
-      const u = (await resp.json()) as User;
-      setUser(u);
+      const resp = await fetch(`/api/users/${userId}`);
+      const userData = await resp.json();
+      setUser(userData);
     })();
   }, []);
 

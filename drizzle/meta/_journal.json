@@ -43,6 +43,13 @@
       "when": 1735249633002,
       "tag": "0005_pink_darwin",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1735692468747,
+      "tag": "0006_chilly_johnny_blaze",
+      "breakpoints": true
     }
   ]
 }

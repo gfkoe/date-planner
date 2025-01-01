@@ -1,20 +1,7 @@
 "use client";
 import React from "react";
 
-import { useEffect, useState } from "react";
-import { Dino } from "./types.ts";
-import Link from "next/link";
-
 export default function Home() {
-  //const [dinosaurs, setDinosaurs] = useState<Dino[]>([]);
-  //useEffect(() => {
-  //  (async () => {
-  //    const response = await fetch("/api/dinosaurs");
-  //    const allDinosaurs = (await response.json()) as Dino[];
-  //    setDinosaurs(allDinosaurs);
-  //  })();
-  //}, []);
-
   return (
     <div className="flex flex-col justify-center bg-gray-800 min-h-full h-screen">
       <div className="text-center bg-black py-2">

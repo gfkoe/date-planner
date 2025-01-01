@@ -18,8 +18,12 @@ export async function insertUser(userObj: typeof userSchema) {
   return await db.insert(userSchema).values(userObj);
 }
 
-export async function findUserById(userId: typeof integer) {
-  return await db.select().from(userSchema).where(eq(userSchema.id, userId));
+export async function findUserById(userId: number) {
+  return await db
+    .select()
+    .from(userSchema)
+    .where(eq(userSchema.id, userId))
+    .limit(1);
 }
 
 export async function findUserByEmail(email: string) {

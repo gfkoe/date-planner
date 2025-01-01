@@ -5,15 +5,16 @@ await deleteUserById(1);
 await insertUser({
   firstName: "Alice",
   lastName: "Doe",
-  email: "email@email.com",
+  email: "test@email.com",
   password: "pass",
+  role: "user",
 });
 const res = await findUserByEmail("email@email.com");
 
 const newUser = {
-id: res.id,
-firstname: "Gabriel",
-lastName: "Koeb",
-email: "test@test.com"
-pass:"pass"
-}
+  id: res.id,
+  firstname: "Gabriel",
+  lastName: "Koeb",
+  email: "test@test.com",
+  pass: "pass",
+};
