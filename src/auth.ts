@@ -1,25 +1,55 @@
 import NextAuth from "next-auth";
 import "next-auth/jwt";
 
-import Google from "next-auth/providers/google";
-import { UnstorageAdapter } from "@auth/unstorage-adapter";
+//import Google from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { findUserByEmail } from "./db/db";
+// @ts-expect-error
+import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 
 export const { handlers, auth, signin, signout } = NextAuth({
-  adapter: UnstorageAdapter(),
-
-  providers: [Google],
-
-  basepath: "/api/auth",
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "example@email.com",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "Password",
+        },
+      },
+      async authorize(credentials) {
+        try {
+          if (!credentials) {
+            throw new Error("No credentials to log in as");
+          }
+          const { email, password } = credentials;
+          const users = await findUserByEmail(email);
+          const user = users[0];
+          const checkPassword = await bcrypt.compare(password, user.password);
+          if (!checkPassword) {
+            throw new Error("Password is incorrect");
+          }
+          return user as any;
+        } catch (error) {
+          throw new Error(error);
+        }
+      },
+    }),
+  ],
+  basepath: "/src/auth",
   session: { strategy: "jwt" },
 
   callbacks: {
     authorized({ request, auth }) {
       const { pathname } = request.nextUrl;
-      if (pathname === "/api/auth/signin") {
-        return true;
-      } else {
-        return !!auth;
-      }
+      if (pathname === "./middleware") return !!auth;
+      return true;
     },
     jwt({ token, trigger, session, account }) {
       if (account) {

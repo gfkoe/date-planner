@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { findUserById } from "../../../../db/db.ts";
 
 export const GET = async (
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { user: string } },
 ) => {
   const awaitedParams = await params;
