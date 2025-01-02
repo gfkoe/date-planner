@@ -2,10 +2,13 @@
 import React from "react";
 
 import { useEffect, useState, use } from "react";
-import { User } from "../types.ts";
-import { Link } from "@next";
+import { User } from "../types";
+//import { Link } from "@next";
+import Link from "next/link";
 
-export default function UserPage({ params }: { params: { user: string } }) {
+type RouteParams = { params: Promise<{ user: string }> };
+
+export default function UserPage({ params }: RouteParams) {
   const { user } = use(params);
   const [userData, setUserData] = useState<User | null>(null);
   useEffect(() => {
