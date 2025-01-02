@@ -1,3 +1,9 @@
 {
   "unstable": ["unsafe-proto"]
+  "compilerOptions": {
+    "jsx": "react-jsx",
+  }
+  "imports": {
+    "@next": "./src/components/next.ts",
+  }
 }

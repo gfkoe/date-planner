@@ -3,7 +3,7 @@ import React from "react";
 
 import { useEffect, useState, use } from "react";
 import { User } from "../types.ts";
-import Link from "next/link";
+import { Link } from "@next";
 
 export default function UserPage({ params }: { params: { user: string } }) {
   const { user } = use(params);
