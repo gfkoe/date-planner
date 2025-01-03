@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { users as userSchema, dates as dateSchema } from "./schema.ts";
-import { usersRelations } from "./relations.ts";
+import { users as userSchema, dates as dateSchema } from "./schema";
+import { usersRelations } from "./relations";
 import pg from "pg";
 import { integer } from "drizzle-orm/sqlite-core";
 import { eq } from "drizzle-orm/expressions";
@@ -9,20 +9,17 @@ const { Pool } = pg;
 
 export const db = drizzle({
   client: new Pool({
-    connectionString: Deno.env.get("DATABASE_URL"),
+    //connectionString: Deno.env.get("DATABASE_URL"),
+    connectionString: process.env.DATABASE_URL,
   }),
   schema: { userSchema, usersRelations, dateSchema },
 });
 
 //export async function insertUser(userObj: typeof userSchema) {
+//  //no something different
+//  // i need copilot to give me something different and help me with this please
 //  return await db.insert(userSchema).values(userObj);
 //}
-
-export async function insertUser(userObj: typeof userSchema) {
-  //no something different
-  // i need copilot to give me something different and help me with this please
-  return await db.insert(userSchema).values(userObj);
-}
 
 export async function findUserById(userId: number) {
   const foundUsers = await db

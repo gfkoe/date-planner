@@ -1,15 +1,16 @@
-import * as NextAuth from "next-auth";
+import NextAuth from "next-auth";
+import { authConfig } from "@/auth.config";
 import "next-auth/jwt";
+import { z } from "zod";
+import Credentials from "next-auth/providers/credentials";
+import { findUserByEmail } from "@/db/db";
+import bcrypt from "bcrypt";
 
-//import Google from "next-auth/providers/google";
-import * as CredentialsProvider from "next-auth/providers/credentials";
-import { findUserByEmail } from "./db/db.ts";
-//@ts-expect-error
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
+export const { auth, signIn, signOut } = NextAuth({
+  ...authConfig,
 
-export const { handlers, auth, signin, signout } = NextAuth({
   providers: [
-    CredentialsProvider({
+    Credentials({
       name: "Credentials",
       credentials: {
         email: {
@@ -29,9 +30,8 @@ export const { handlers, auth, signin, signout } = NextAuth({
             throw new Error("No credentials to log in as");
           }
           const { email, password } = credentials;
-          const users = await findUserByEmail(email);
-          const user = users[0];
-          const checkPassword = await bcrypt.compare(password, user.password);
+          const user = await findUserByEmail(email);
+          const checkPassword = password === user.password;
           if (!checkPassword) {
             throw new Error("Password is incorrect");
           }
@@ -42,30 +42,6 @@ export const { handlers, auth, signin, signout } = NextAuth({
       },
     }),
   ],
-  basepath: "/src/auth",
-  session: { strategy: "jwt" },
-
-  callbacks: {
-    authorized({ request, auth }) {
-      const { pathname } = request.nextUrl;
-      if (pathname === "./middleware") return !!auth;
-      return true;
-    },
-    jwt({ token, trigger, session, account }) {
-      if (trigger === "update") {
-        token.name = session.user.name;
-      }
-      if (account?.provider === "Credentials") {
-        return { ...token, accessToken: account.accessToken };
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token?.accessToken) session.accessToken = token.accessToken;
-
-      return session;
-    },
-  },
 });
 
 declare module "next-auth" {
