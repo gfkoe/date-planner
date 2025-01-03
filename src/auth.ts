@@ -1,10 +1,10 @@
-import NextAuth from "next-auth";
+import * as NextAuth from "next-auth";
 import "next-auth/jwt";
 
 //import Google from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { findUserByEmail } from "./db/db";
-// @ts-expect-error
+import * as CredentialsProvider from "next-auth/providers/credentials";
+import { findUserByEmail } from "./db/db.ts";
+//@ts-expect-error
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 
 export const { handlers, auth, signin, signout } = NextAuth({
@@ -36,8 +36,8 @@ export const { handlers, auth, signin, signout } = NextAuth({
             throw new Error("Password is incorrect");
           }
           return user as any;
-        } catch (error) {
-          throw new Error(error);
+        } catch (e: any) {
+          throw new Error(e.message);
         }
       },
     }),
@@ -52,7 +52,10 @@ export const { handlers, auth, signin, signout } = NextAuth({
       return true;
     },
     jwt({ token, trigger, session, account }) {
-      if (account) {
+      if (trigger === "update") {
+        token.name = session.user.name;
+      }
+      if (account?.provider === "Credentials") {
         return { ...token, accessToken: account.accessToken };
       }
       return token;

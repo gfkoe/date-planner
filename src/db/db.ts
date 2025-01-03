@@ -14,7 +14,13 @@ export const db = drizzle({
   schema: { userSchema, usersRelations, dateSchema },
 });
 
+//export async function insertUser(userObj: typeof userSchema) {
+//  return await db.insert(userSchema).values(userObj);
+//}
+
 export async function insertUser(userObj: typeof userSchema) {
+  //no something different
+  // i need copilot to give me something different and help me with this please
   return await db.insert(userSchema).values(userObj);
 }
 
@@ -28,7 +34,12 @@ export async function findUserById(userId: number) {
 }
 
 export async function findUserByEmail(email: string) {
-  return await db.select().from(userSchema).where(eq(userSchema.email, email));
+  const foundUsers = await db
+    .select()
+    .from(userSchema)
+    .where(eq(userSchema.email, email))
+    .limit(1);
+  return foundUsers[0] || null;
 }
 
 // this does not work i dont know what i was thinking because obviously
