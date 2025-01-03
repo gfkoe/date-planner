@@ -11,33 +11,34 @@ export const { auth, signIn, signOut } = NextAuth({
 
   providers: [
     Credentials({
-      name: "Credentials",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "example@email.com",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Password",
-        },
-      },
+      //name: "Credentials",
+      //credentials: {
+      //  email: {
+      //    label: "Email",
+      //    type: "email",
+      //    placeholder: "example@email.com",
+      //  },
+      //  password: {
+      //    label: "Password",
+      //    type: "password",
+      //    placeholder: "Password",
+      //  },
+      //},
       async authorize(credentials) {
-        try {
-          if (!credentials) {
-            throw new Error("No credentials to log in as");
-          }
-          const { email, password } = credentials;
+        const parsedCredentials = z
+          .object({ email: z.string().email(), password: z.string().min(6) })
+          .safeParse(credentials);
+        if (parsedCredentials.success) {
+          const { email, password } = parsedCredentials.data;
           const user = await findUserByEmail(email);
-          const checkPassword = password === user.password;
-          if (!checkPassword) {
-            throw new Error("Password is incorrect");
+          if (!user) {
+            return null;
           }
-          return user as any;
-        } catch (e: any) {
-          throw new Error(e.message);
+          const checkPassword = await bcrypt.compare(password, user.password);
+          if (checkPassword) {
+            return { ...user, id: user.id.toString() };
+          }
+          return null;
         }
       },
     }),
