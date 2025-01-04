@@ -1,4 +1,4 @@
-import { findUserByEmail, insertUser, deleteUserById } from "./db/db.ts";
+import { findUserByEmail, insertUser, deleteUserById } from "./db/db";
 
 await deleteUserById(1);
 

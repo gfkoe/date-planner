@@ -1,5 +1,3 @@
-export type Dino = { name: string; description: string };
-
 export type User = {
   id: number;
   firstName: string;
@@ -13,5 +11,8 @@ export type Date = {
   id: number;
   description: string;
   location: string;
-  date: Date;
+  date: string;
 };
+
+export type InsertUser = Omit<User, "id">;
+export type InsertDate = Omit<Date, "id">;
