@@ -10,7 +10,7 @@ await insertUser({
   role: "user",
 });
 const res = await findUserByEmail("email@email.com");
-constole.log(res);
+console.log(res);
 
 //const newUser = {
 //  id: res.id,
