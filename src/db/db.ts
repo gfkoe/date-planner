@@ -5,6 +5,7 @@ import pg from "pg";
 //import { integer } from "drizzle-orm/sqlite-core";
 import { eq } from "drizzle-orm/expressions";
 import { InsertUser, InsertDate } from "../app/types";
+import { genSalt, hash } from "bcrypt";
 
 const { Pool } = pg;
 
@@ -15,6 +16,10 @@ export const db = drizzle({
   }),
   schema: { userSchema, usersRelations, dateSchema },
 });
+
+export async function getUser(email: string) {
+  return await db.select().from(userSchema).where(eq(userSchema.email, email));
+}
 
 export async function findUserById(userId: number) {
   const foundUsers = await db
@@ -34,8 +39,16 @@ export async function findUserByEmail(email: string) {
   return foundUsers[0] || null;
 }
 
-export async function insertUser(userObj: InsertUser) {
-  return await db.insert(userSchema).values(userObj);
+export async function insertAndCreateUser(userObj: InsertUser) {
+  const salt = await genSalt(10);
+  const hashedPassword = await hash(userObj.password, salt);
+  const userToInsert = {
+    ...userObj,
+    password: hashedPassword,
+    role: "user",
+  };
+
+  return await db.insert(userSchema).values(userToInsert);
 }
 
 export async function insertDate(dateObj: InsertDate) {

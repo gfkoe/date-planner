@@ -1,8 +1,12 @@
-import { findUserByEmail, insertUser, deleteUserById } from "./db/db";
+import {
+  findUserByEmail,
+  insertAndCreateUser,
+  deleteUserById,
+} from "./db/db.ts";
 
 await deleteUserById(1);
 
-await insertUser({
+await insertAndCreateUser({
   firstName: "Alice",
   lastName: "Doe",
   email: "test@email.com",
