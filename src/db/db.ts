@@ -17,6 +17,7 @@ export const db = drizzle({
   schema: { userSchema, usersRelations, dateSchema },
 });
 
+//gets list of users
 export async function getUser(email: string) {
   return await db.select().from(userSchema).where(eq(userSchema.email, email));
 }

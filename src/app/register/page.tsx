@@ -1,5 +1,5 @@
 import CreateAccountForm from "@/components/CreateAccountForm";
-export default function LoginPage() {
+export default function CreateAccountPage() {
   return (
     <main>
       <div>

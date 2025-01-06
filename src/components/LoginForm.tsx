@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useActionState } from "react";
 import { authenticate } from "@/lib/actions";
+import Link from "next/link";
 
 export default function LoginForm() {
   const [errorMessage, formAction, isPending] = useActionState(
@@ -22,6 +23,7 @@ export default function LoginForm() {
               id="email"
               placeholder="example@email.com"
               type="email"
+              name="email"
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
@@ -32,6 +34,7 @@ export default function LoginForm() {
               id="password"
               placeholder="password"
               type="password"
+              name="password"
               autoCapitalize="none"
               autoComplete="current-password"
               autoCorrect="off"
@@ -44,6 +47,12 @@ export default function LoginForm() {
             )}
             Sign In
           </Button>
+          <div>
+            {"Don't have an account? "}
+            <Link href="/register">
+              <Button>Sign Up</Button>
+            </Link>
+          </div>
           <div>
             {errorMessage && (
               <>
