@@ -72,6 +72,13 @@ export default function CreateAccountForm() {
             )}
             Create Account
           </Button>
+          <div>
+            {errorMessage && (
+              <>
+                <p>{errorMessage}</p>
+              </>
+            )}
+          </div>
         </div>
       </form>
     </div>
