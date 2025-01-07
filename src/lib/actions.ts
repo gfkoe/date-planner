@@ -29,11 +29,11 @@ export async function createAccount(
   prevState: string | undefined,
   formData: FormData,
 ) {
-  let firstName = formData.get("firstName") as string;
-  let lastName = formData.get("lastName") as string;
-  let email = formData.get("email") as string;
-  let password = formData.get("password") as string;
-  let role = "user";
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("lastName") as string;
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const role = "user";
   console.log(firstName, lastName, email, password, role);
   const user = await getUser(email);
   if (user.length > 0) {
