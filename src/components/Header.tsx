@@ -1,17 +1,20 @@
-import { signOut } from "@/auth";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 export default function Header() {
   return (
-    <div className="text-center bg-black py-2">
-      <h1 className="text-white text-4xl">Welcome!</h1>
-      <form
-        action={async () => {
-          "use server";
-          await signOut();
-        }}
-      >
-        <Button>Sign Out</Button>
-      </form>
+    <div className="relative flex items-center py-2">
+      <div className="flex items-center justify-between w-full">
+        <SidebarTrigger />
+        <Link href="/about">
+          <Button variant="ghost" className="text-4xl">
+            about
+          </Button>
+        </Link>
+      </div>
+
+      <h1 className="absolute left-1/2 -translate-x-1/2 text-5xl">Welcome!</h1>
     </div>
   );
 }
