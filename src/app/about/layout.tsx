@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 export default async function Layout({
   children,
 }: {
@@ -6,7 +7,10 @@ export default async function Layout({
   return (
     <div className="flex h-screen w-screen">
       <div className="w-auto flex flex-col flex-1">
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          {children}
+          <Analytics />
+        </main>
       </div>
     </div>
   );

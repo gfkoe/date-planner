@@ -1,6 +1,7 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import Header from "@/components/Header";
+import { Analytics } from "@vercel/analytics/react";
 
 export default async function Layout({
   children,
@@ -13,7 +14,10 @@ export default async function Layout({
         <AppSidebar />
         <div className="w-auto flex flex-col flex-1">
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">
+            {children}
+            <Analytics />
+          </main>
         </div>
       </div>
     </SidebarProvider>
