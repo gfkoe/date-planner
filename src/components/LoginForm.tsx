@@ -14,14 +14,24 @@ export default function LoginForm() {
   );
 
   return (
-    <div>
+    <div className="w-1/5">
       <form action={formAction}>
         <div>
           <div>
-            <Label htmlFor="email">Email</Label>
+            {errorMessage && (
+              <>
+                <p className="text-center text-red-500">{errorMessage}</p>
+              </>
+            )}
+          </div>
+          <div className="text-3xl">Sign In</div>
+          <div className="mt-2">
+            <Label className="text-2xl" htmlFor="email">
+              Email
+            </Label>
             <Input
               id="email"
-              placeholder="example@email.com"
+              placeholder="Example@email.com"
               type="email"
               name="email"
               autoCapitalize="none"
@@ -29,10 +39,12 @@ export default function LoginForm() {
               autoCorrect="off"
               disabled={isPending}
             />
-            <Label htmlFor="password">Password</Label>
+            <Label className="text-2xl" htmlFor="password">
+              Password
+            </Label>
             <Input
               id="password"
-              placeholder="password"
+              placeholder="Password"
               type="password"
               name="password"
               autoCapitalize="none"
@@ -41,24 +53,21 @@ export default function LoginForm() {
               disabled={isPending}
             />
           </div>
-          <Button disabled={isPending}>
-            {isPending && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Sign In
-          </Button>
-          <div>
-            {"Don't have an account? "}
-            <Link href="/register">
-              <Button>Sign Up</Button>
-            </Link>
+          <div className="w-full mt-2">
+            <Button className="w-full" disabled={isPending}>
+              {isPending && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Sign In
+            </Button>
           </div>
-          <div>
-            {errorMessage && (
-              <>
-                <p>{errorMessage}</p>
-              </>
-            )}
+          <div className="w-full mt-2 text-center">
+            <div>
+              {"New to DatePlanner? "}
+              <Link href="/register">
+                <Button variant="link">Sign Up</Button>
+              </Link>
+            </div>
           </div>
         </div>
       </form>
