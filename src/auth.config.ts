@@ -35,7 +35,7 @@ export const authConfig = {
     async session({ session, token }) {
       if (token) {
         session.user = {
-          id: token.id as number,
+          id: token.id.toString(),
           email: token.email,
           firstName: token.firstName,
           lastName: token.lastName,
