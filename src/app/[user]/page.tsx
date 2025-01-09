@@ -2,8 +2,8 @@
 import React from "react";
 
 import { useEffect, useState, use } from "react";
-import { User } from "../types";
-//import { Link } from "@next";
+import { User } from "@/app/types";
+import UserInfo from "@/components/UserInfo";
 import Link from "next/link";
 
 type RouteParams = { params: Promise<{ user: string }> };
@@ -24,9 +24,11 @@ export default function UserPage({ params }: RouteParams) {
     return <main>Loading...</main>;
   }
   return (
-    <main>
-      <h1>User id is equal to: {userData.id}</h1>
-      <Link href="/">Back to Home</Link>
-    </main>
+    <div className="flex flex-col justify-center min-h-full">
+      <div className="flex flex-auto justify-center items-center">
+        <UserInfo userData={userData} />
+        <Link href="/">Back to Home</Link>
+      </div>
+    </div>
   );
 }

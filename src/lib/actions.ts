@@ -9,7 +9,6 @@ export async function authenticate(
   prevState: string | undefined,
   formData: FormData,
 ) {
-  console.log(formData);
   try {
     await signIn("credentials", formData);
   } catch (error) {
@@ -34,7 +33,6 @@ export async function createAccount(
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const role = "user";
-  console.log(firstName, lastName, email, password, role);
   const user = await getUser(email);
   if (user.length > 0) {
     return "User already exists";

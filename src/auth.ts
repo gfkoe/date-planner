@@ -24,20 +24,12 @@ export const { auth, signIn, signOut } = NextAuth({
         const checkPassword = await bcrypt.compare(password, user.password!);
 
         if (checkPassword) {
-          return { ...user, id: user.id.toString() };
+          return {
+            ...user,
+            id: user.id.toString(),
+          };
         }
       },
     }),
   ],
 });
-
-declare module "next-auth" {
-  interface Session {
-    accessToken?: string;
-  }
-}
-declare module "next-auth/jwt" {
-  interface JWT {
-    accessToken?: string;
-  }
-}

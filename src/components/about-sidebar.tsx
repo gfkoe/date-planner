@@ -1,5 +1,4 @@
-import { FaHome, FaSignOutAlt } from "react-icons/fa";
-import { auth, signOut } from "@/auth";
+import { FaHome } from "react-icons/fa";
 import {
   Sidebar,
   SidebarContent,
@@ -13,19 +12,12 @@ import {
 import Link from "next/link";
 
 const items = [{ title: "Home", url: "/home", icon: FaHome }];
-
-export async function AppSidebar() {
-  const session = await auth();
-
+export function AboutSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>DatePlanner Navigation</SidebarGroupLabel>
-          <SidebarGroupLabel>
-            Currently signed in as {session?.user?.firstName}{" "}
-            {session?.user?.lastName}
-          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -38,20 +30,6 @@ export async function AppSidebar() {
                   </Link>
                 </SidebarMenuItem>
               ))}
-              <SidebarMenuItem>
-                <form
-                  action={async () => {
-                    "use server";
-                    await signOut();
-                  }}
-                >
-                  <SidebarMenuButton>
-                    {" "}
-                    <FaSignOutAlt />
-                    Sign Out
-                  </SidebarMenuButton>
-                </form>
-              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
