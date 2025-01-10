@@ -24,7 +24,7 @@ export const authConfig = {
     },
     async jwt({ token, user }) {
       if (user) {
-        token.id = Number(user.id);
+        token.id = user.id.toString();
         token.email = user.email;
         token.firstName = user.firstName;
         token.lastName = user.lastName;
@@ -37,6 +37,7 @@ export const authConfig = {
         session.user = {
           id: token.id.toString(),
           email: token.email,
+          emailVerified: new Date(),
           firstName: token.firstName,
           lastName: token.lastName,
           role: token.role,
