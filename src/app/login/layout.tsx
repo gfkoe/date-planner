@@ -9,6 +9,7 @@ export default async function Layout({
     <div className="flex h-screen w-screen">
       <div className="w-auto flex flex-col flex-1">
         <LoginHeader />
+        <hr className="border-black" />
         <main className="flex-1">
           {children}
           <Analytics />

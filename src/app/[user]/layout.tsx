@@ -14,6 +14,7 @@ export default async function Layout({
         <AppSidebar />
         <div className="w-auto flex flex-col flex-1">
           <Header />
+          <hr className="border-black" />
           <main className="flex-1">
             {children}
             <Analytics />

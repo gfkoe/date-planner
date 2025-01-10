@@ -15,6 +15,7 @@ export default function LoginHeader() {
       <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl">
         Welcome to DatePlanner!
       </h1>
+      <hr className="border-black" />
     </div>
   );
 }
