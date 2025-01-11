@@ -9,11 +9,12 @@ interface UserInfoProps {
 export default function UserInfo({ userData }: UserInfoProps) {
   return (
     <div className="w-1/5">
-      <div>
-        <div className="text-3xl">User Info</div>
+      <div className="border border-black rounded-lg py-5 px-5">
+        <div className="text-3xl">Profile Info</div>
         <div className="mt-2">
-          <div className="text-2xl">First Name: {userData.firstName}</div>
-          <div className="text-2xl">Last Name: {userData.lastName}</div>
+          <div className="text-xl">
+            {userData.firstName} {userData.lastName}
+          </div>
         </div>
       </div>
     </div>

@@ -27,7 +27,6 @@ export default function UserPage({ params }: RouteParams) {
     <div className="flex flex-col justify-center min-h-full">
       <div className="flex flex-auto justify-center items-center">
         <UserInfo userData={userData} />
-        <Link href="/">Back to Home</Link>
       </div>
     </div>
   );
