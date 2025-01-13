@@ -1,9 +1,13 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { users as userSchema, dates as dateSchema } from "./schema";
+import {
+  users as userSchema,
+  dates as dateSchema,
+  friendships as friendshipSchema,
+} from "./schema";
 import { usersRelations } from "./relations";
 import pg from "pg";
 //import { integer } from "drizzle-orm/sqlite-core";
-import { eq } from "drizzle-orm/expressions";
+import { eq, and } from "drizzle-orm/expressions";
 import { InsertUser, InsertDate } from "../app/types";
 import { genSalt, hash } from "bcrypt";
 
@@ -58,4 +62,50 @@ export async function insertDate(dateObj: InsertDate) {
 
 export async function deleteUserById(userId: number) {
   return await db.delete(userSchema).where(eq(userSchema.id, userId));
+}
+
+export async function sendFriendRequest(userId: number, friendId: number) {
+  return await db.insert(friendshipSchema).values({
+    userId,
+    friendId,
+    status: "pending",
+  });
+}
+
+export async function acceptFriendRequest(userId: number, friendId: number) {
+  await db
+    .update(friendshipSchema)
+    .set({ status: "accepted" })
+    .where(
+      and(
+        eq(friendshipSchema.userId, friendId),
+        eq(friendshipSchema.friendId, userId),
+      ),
+    );
+
+  await db.insert(friendshipSchema).values({
+    userId,
+    friendId,
+    status: "accepted",
+  });
+}
+
+export async function getFriends(userId: number) {
+  const friends = await db
+    .select({
+      friendId: friendshipSchema.friendId,
+      firstName: userSchema.firstName,
+      lastName: userSchema.lastName,
+      email: userSchema.email,
+    })
+    .from(friendshipSchema)
+    .innerJoin(userSchema, eq(friendshipSchema.friendId, userSchema.id))
+    .where(
+      and(
+        eq(friendshipSchema.userId, userId),
+        eq(friendshipSchema.status, "accepted"),
+      ),
+    );
+
+  return friends || [];
 }

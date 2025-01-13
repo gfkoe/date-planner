@@ -4,7 +4,6 @@ import React from "react";
 import { useEffect, useState, use } from "react";
 import { User } from "@/app/types";
 import UserInfo from "@/components/UserInfo";
-import Link from "next/link";
 
 type RouteParams = { params: Promise<{ user: string }> };
 
