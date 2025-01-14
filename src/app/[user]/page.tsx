@@ -19,9 +19,15 @@ export default function UserPage({ params }: RouteParams) {
 
     fetchUser();
   }, [user]);
+
   if (!userData) {
-    return <main>Loading...</main>;
+    return (
+      <main>
+        <p>Loading...</p>
+      </main>
+    );
   }
+
   return (
     <div className="flex flex-col justify-center min-h-full">
       <div className="flex flex-auto justify-center items-center">

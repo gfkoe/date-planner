@@ -27,8 +27,12 @@ export const POST = async (_request: NextRequest, { params }: RouteParams) => {
 
   try {
     await sendFriendRequest(senderId, userToFriendId);
+    return NextResponse.json(
+      { message: "Friend request sent" },
+      { status: 200 },
+    );
   } catch (error) {
-    console.error(error);
+    console.error("Database error: ", error);
     return NextResponse.json(
       { error: "Failed to send friend request" },
       { status: 500 },
