@@ -1,5 +1,7 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 import Link from "next/link";
 
 export default function Header() {
@@ -7,16 +9,16 @@ export default function Header() {
     <div className="relative flex items-center py-2">
       <div className="flex items-center justify-between w-full">
         <SidebarTrigger />
-        <Link href="/about">
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl">
+          Welcome to DatePlanner!
+        </h1>
+        <div className="flex items-center">
+          <Input type="search" placeholder="Search" className="w-full mr-4" />
           <Button variant="ghost" className="text-3xl">
-            about
+            <Link href="/about">about</Link>
           </Button>
-        </Link>
+        </div>
       </div>
-
-      <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl">
-        Welcome to DatePlanner!
-      </h1>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 import { findUserByEmail } from "@/db/db";
 import bcrypt from "bcrypt";
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
 
   providers: [

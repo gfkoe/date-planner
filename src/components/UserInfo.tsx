@@ -15,9 +15,9 @@ export default function UserInfo({ userData }: UserInfoProps) {
   const [friendList, setFriendList] = useState([]);
   useEffect(() => {
     if (Number(session?.user?.id) === userData.id) {
-      setIsLoggedInUser(false);
-    } else {
       setIsLoggedInUser(true);
+    } else {
+      setIsLoggedInUser(false);
     }
     const fetchFriends = async () => {
       try {
@@ -54,7 +54,7 @@ export default function UserInfo({ userData }: UserInfoProps) {
             {userData.firstName} {userData.lastName}
           </div>
           <div>
-            {isLoggedInUser && (
+            {!isLoggedInUser && (
               <Button
                 onClick={() => {
                   sendFriendRequest();
@@ -67,7 +67,6 @@ export default function UserInfo({ userData }: UserInfoProps) {
         </div>
         <hr className="my-2 border-black" />
         <div>
-          <div>email: {userData.email}</div>
           <div>number of friends: {friendList.length}</div>
         </div>
       </div>

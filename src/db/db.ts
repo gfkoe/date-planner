@@ -7,7 +7,7 @@ import {
 import { usersRelations } from "./relations";
 import pg from "pg";
 //import { integer } from "drizzle-orm/sqlite-core";
-import { eq, and } from "drizzle-orm/expressions";
+import { eq, and, or, ilike } from "drizzle-orm/expressions";
 import { InsertUser, InsertDate } from "../app/types";
 import { genSalt, hash } from "bcrypt";
 
@@ -108,4 +108,27 @@ export async function getFriends(userId: number) {
     );
 
   return friends || [];
+}
+
+export async function searchForUsers(searchQuery: string) {
+  const searchTerms = searchQuery.split(" ").map((term) => term.toLowerCase());
+
+  if (searchTerms.length === 0) {
+    return [];
+  }
+
+  const searchClause = searchTerms.map((term) => {
+    const pattern = `%${term}%`;
+    return or(
+      ilike(userSchema.firstName, pattern),
+      ilike(userSchema.lastName, pattern),
+    );
+  });
+
+  const foundUsers = await db
+    .select()
+    .from(userSchema)
+    .where(and(...searchClause));
+
+  return foundUsers || [];
 }
