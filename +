@@ -1,0 +1,21 @@
+Fixed session, working on search for users
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch userprofile
+# Your branch is ahead of 'origin/userprofile' by 3 commits.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	new file:   src/app/api/auth/[...nextauth]/route.ts
+#	modified:   src/app/layout.tsx
+#	modified:   src/auth.config.ts
+#	modified:   src/auth.ts
+#	modified:   src/components/CreateAccountForm.tsx
+#	modified:   src/components/Header.tsx
+#	modified:   src/components/LoginForm.tsx
+#	modified:   src/components/LoginHeader.tsx
+#	modified:   src/components/UserInfo.tsx
+#	modified:   src/db/db.ts
+#	modified:   src/middleware.ts
+#

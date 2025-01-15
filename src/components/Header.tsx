@@ -1,6 +1,6 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+//import UserSearch from "@/components/UserSearch";
 
 import Link from "next/link";
 
@@ -13,7 +13,7 @@ export default function Header() {
           Welcome to DatePlanner!
         </h1>
         <div className="flex items-center">
-          <Input type="search" placeholder="Search" className="w-full mr-4" />
+          <div className="w-full mr-4"></div>
           <Button variant="ghost" className="text-3xl">
             <Link href="/about">about</Link>
           </Button>
