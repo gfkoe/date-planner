@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sendFriendRequest } from "@/db/db";
+import { findUserById, sendFriendRequest } from "@/db/db";
 import { auth } from "@/auth";
+import nodemailer from "nodemailer";
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_NODEMAILER_EMAIL,
+    pass: process.env.GMAIL_NODEMAILER_PASSWORD,
+  },
+});
 
 type RouteParams = { params: Promise<{ user: string }> };
 
@@ -26,6 +35,16 @@ export const POST = async (_request: NextRequest, { params }: RouteParams) => {
   }
 
   try {
+    const userToFriendObj = await findUserById(userToFriendId);
+
+    const mailOptions = {
+      from: process.env.GMAIL_NODEMAILER_EMAIL,
+      to: userToFriendObj.email,
+      subject: "New friend request on Date Planner!",
+      text: `You have a new friend request from ${session.user.firstName} ${session.user.lastName}!`,
+    };
+    transporter.sendMail(mailOptions);
+
     await sendFriendRequest(senderId, userToFriendId);
     return NextResponse.json(
       { message: "Friend request sent" },

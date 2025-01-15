@@ -64,6 +64,7 @@ export async function deleteUserById(userId: number) {
   return await db.delete(userSchema).where(eq(userSchema.id, userId));
 }
 
+//user is the person who is logged in
 export async function sendFriendRequest(userId: number, friendId: number) {
   return await db.insert(friendshipSchema).values({
     userId,
@@ -72,6 +73,7 @@ export async function sendFriendRequest(userId: number, friendId: number) {
   });
 }
 
+//user is the person who is logged in
 export async function acceptFriendRequest(userId: number, friendId: number) {
   await db
     .update(friendshipSchema)
@@ -88,6 +90,27 @@ export async function acceptFriendRequest(userId: number, friendId: number) {
     friendId,
     status: "accepted",
   });
+}
+
+//user is the person who is logged in
+export async function getFriendshipStatus(userId: number, friendId: number) {
+  const [friendship] = await db
+    .select()
+    .from(friendshipSchema)
+    .where(
+      or(
+        and(
+          eq(friendshipSchema.userId, userId),
+          eq(friendshipSchema.friendId, friendId),
+        ),
+        and(
+          eq(friendshipSchema.userId, friendId),
+          eq(friendshipSchema.friendId, userId),
+        ),
+      ),
+    );
+
+  return friendship ? friendship.status : "none";
 }
 
 export async function getFriends(userId: number) {
