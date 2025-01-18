@@ -60,7 +60,7 @@ export default function UserInfo({ userData }: UserInfoProps) {
   };
 
   return (
-    <div className="w-1/5 h-auto">
+    <div className="w-2/5 h-auto">
       <div className="border border-black rounded-lg py-5 px-5">
         <div className="flex flex-wrap justify-between">
           <div className="sm:text-lg md:text-2xl lg:text-2xl truncate">
