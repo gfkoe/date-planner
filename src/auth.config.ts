@@ -8,19 +8,19 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isOnHome = nextUrl.pathname.startsWith("/home");
       const isOnLoginPage = nextUrl.pathname.startsWith("/login");
-      if (isOnHome) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      }
-      if (isOnLoginPage) {
-        if (isLoggedIn) {
-          return Response.redirect(new URL("/home", nextUrl));
-        } // Redirect authenticated users to home page
+      const isOnHome = nextUrl.pathname.startsWith("/home");
+      const availPages = ["/login", "/about"];
+      if (
+        availPages.some((page) => nextUrl.pathname.startsWith(page)) &&
+        !isLoggedIn
+      ) {
         return true;
       }
-      return !isOnHome || isLoggedIn;
+      if (isOnLoginPage && isLoggedIn) {
+        return Response.redirect(new URL("/home", nextUrl));
+      }
+      return !isOnHome || isLoggedIn; // Redirect unauthenticated users to login page
     },
     async jwt({ token, user }) {
       if (user) {

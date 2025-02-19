@@ -94,9 +94,10 @@ export default function CreateAccountForm() {
           <div className="w-full mt-2 text-center">
             <div>
               {"Already a member? "}
-              <Link href="/login">
-                <Button variant="link">Sign In</Button>
-              </Link>
+
+              <Button variant="link" asChild>
+                <Link href="/login">Sign In</Link>
+              </Button>
             </div>
           </div>
         </div>
