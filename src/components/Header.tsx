@@ -11,7 +11,7 @@ export default function Header({ children }: HeaderProps) {
     <div className="relative flex items-center py-2">
       <div className="flex items-center justify-between w-full">
         <SidebarTrigger />
-        <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl">
+        <h1 className="fixed left-1/2 -translate-x-1/2 text-3xl">
           Welcome to DatePlanner!
         </h1>
         <div className="flex items-center">

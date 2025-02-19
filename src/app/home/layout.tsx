@@ -18,7 +18,7 @@ export default async function Layout({
             <UserSearch />
           </Header>
           <hr className="border-black" />
-          <main className="flex-1">
+          <main className="flex-1 flex items-center justify-center">
             {children}
             <Analytics />
           </main>
