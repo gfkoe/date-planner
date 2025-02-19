@@ -64,9 +64,9 @@ export default function LoginForm() {
           <div className="w-full mt-2 text-center">
             <div>
               {"New to DatePlanner? "}
-              <Link href="/register">
-                <Button variant="link">Sign Up</Button>
-              </Link>
+              <Button variant="link" asChild>
+                <Link href="/register">Sign Up</Link>
+              </Button>
             </div>
           </div>
         </div>

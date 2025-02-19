@@ -1,9 +1,13 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { users as userSchema, dates as dateSchema } from "./schema";
+import {
+  users as userSchema,
+  dates as dateSchema,
+  friendships as friendshipSchema,
+} from "./schema";
 import { usersRelations } from "./relations";
 import pg from "pg";
 //import { integer } from "drizzle-orm/sqlite-core";
-import { eq } from "drizzle-orm/expressions";
+import { eq, and, or, ilike } from "drizzle-orm/expressions";
 import { InsertUser, InsertDate } from "../app/types";
 import { genSalt, hash } from "bcrypt";
 
@@ -58,4 +62,96 @@ export async function insertDate(dateObj: InsertDate) {
 
 export async function deleteUserById(userId: number) {
   return await db.delete(userSchema).where(eq(userSchema.id, userId));
+}
+
+//user is the person who is logged in
+export async function sendFriendRequest(userId: number, friendId: number) {
+  return await db.insert(friendshipSchema).values({
+    userId,
+    friendId,
+    status: "pending",
+  });
+}
+
+//user is the person who is logged in
+export async function acceptFriendRequest(userId: number, friendId: number) {
+  await db
+    .update(friendshipSchema)
+    .set({ status: "accepted" })
+    .where(
+      and(
+        eq(friendshipSchema.userId, friendId),
+        eq(friendshipSchema.friendId, userId),
+      ),
+    );
+
+  await db.insert(friendshipSchema).values({
+    userId,
+    friendId,
+    status: "accepted",
+  });
+}
+
+//user is the person who is logged in
+export async function getFriendshipStatus(userId: number, friendId: number) {
+  const [friendship] = await db
+    .select()
+    .from(friendshipSchema)
+    .where(
+      or(
+        and(
+          eq(friendshipSchema.userId, userId),
+          eq(friendshipSchema.friendId, friendId),
+        ),
+        and(
+          eq(friendshipSchema.userId, friendId),
+          eq(friendshipSchema.friendId, userId),
+        ),
+      ),
+    );
+
+  return friendship ? friendship.status : "none";
+}
+
+export async function getFriends(userId: number) {
+  const friends = await db
+    .select({
+      friendId: friendshipSchema.friendId,
+      firstName: userSchema.firstName,
+      lastName: userSchema.lastName,
+      email: userSchema.email,
+    })
+    .from(friendshipSchema)
+    .innerJoin(userSchema, eq(friendshipSchema.friendId, userSchema.id))
+    .where(
+      and(
+        eq(friendshipSchema.userId, userId),
+        eq(friendshipSchema.status, "accepted"),
+      ),
+    );
+
+  return friends || [];
+}
+
+export async function searchForUsers(searchQuery: string) {
+  const searchTerms = searchQuery.split(" ").map((term) => term.toLowerCase());
+
+  if (searchTerms.length === 0) {
+    return [];
+  }
+
+  const searchClause = searchTerms.map((term) => {
+    const pattern = `%${term}%`;
+    return or(
+      ilike(userSchema.firstName, pattern),
+      ilike(userSchema.lastName, pattern),
+    );
+  });
+
+  const foundUsers = await db
+    .select()
+    .from(userSchema)
+    .where(and(...searchClause));
+
+  return foundUsers || [];
 }

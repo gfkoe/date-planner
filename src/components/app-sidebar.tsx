@@ -1,4 +1,4 @@
-import { FaHome, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { auth, signOut } from "@/auth";
 import {
   Sidebar,
@@ -16,6 +16,7 @@ const items = [{ title: "Home", url: "/home", icon: FaHome }];
 
 export async function AppSidebar() {
   const session = await auth();
+  const u = session?.user;
 
   return (
     <Sidebar>
@@ -23,8 +24,7 @@ export async function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel>DatePlanner Navigation</SidebarGroupLabel>
           <SidebarGroupLabel>
-            Currently signed in as {session?.user?.firstName}{" "}
-            {session?.user?.lastName}
+            Currently signed in as {u?.firstName} {u?.lastName}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -38,6 +38,14 @@ export async function AppSidebar() {
                   </Link>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <Link href={"/" + u?.id}>
+                  <SidebarMenuButton>
+                    <FaUser />
+                    <span>Profile</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <form
                   action={async () => {

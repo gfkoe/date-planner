@@ -1,22 +1,26 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+//import UserSearch from "@/components/UserSearch";
+import { PropsWithChildren } from "react";
 import Link from "next/link";
 
-export default function Header() {
+type HeaderProps = PropsWithChildren;
+
+export default function Header({ children }: HeaderProps) {
   return (
     <div className="relative flex items-center py-2">
       <div className="flex items-center justify-between w-full">
         <SidebarTrigger />
-        <Link href="/about">
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl">
+          Welcome to DatePlanner!
+        </h1>
+        <div className="flex items-center">
+          <div className="w-full mr-4">{children}</div>
           <Button variant="ghost" className="text-3xl">
-            about
+            <Link href="/about">about</Link>
           </Button>
-        </Link>
+        </div>
       </div>
-
-      <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl">
-        Welcome to DatePlanner!
-      </h1>
     </div>
   );
 }
