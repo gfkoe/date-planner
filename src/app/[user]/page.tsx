@@ -4,6 +4,7 @@ import React from "react";
 import { useEffect, useState, use } from "react";
 import { User } from "@/app/types";
 import UserInfo from "@/components/UserInfo";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type RouteParams = { params: Promise<{ user: string }> };
 
@@ -22,9 +23,17 @@ export default function UserPage({ params }: RouteParams) {
 
   if (!userData) {
     return (
-      <main>
-        <p>Loading...</p>
-      </main>
+      <div className="flex flex-col justify-center min-h-full">
+        <div className="flex flex-auto justify-center items-center">
+          <div className="flex flex-col space-y-3">
+            <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[250px]" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
