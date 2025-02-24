@@ -9,19 +9,21 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnLoginPage = nextUrl.pathname.startsWith("/login");
-      const isOnHome = nextUrl.pathname.startsWith("/home");
-      const availPages = ["/login", "/about"];
-      if (
-        availPages.some((page) => nextUrl.pathname.startsWith(page)) &&
-        !isLoggedIn
-      ) {
-        return true;
-      }
+      const availPages = ["/login", "/register", "/about"];
+
       if (isOnLoginPage && isLoggedIn) {
         return Response.redirect(new URL("/home", nextUrl));
       }
-      return !isOnHome || isLoggedIn; // Redirect unauthenticated users to login page
+      if (
+        !isLoggedIn &&
+        !availPages.some((page) => nextUrl.pathname.startsWith(page))
+      ) {
+        // Redirect unauthenticated users to login page
+        return Response.redirect(new URL("/login", nextUrl));
+      }
+      return true;
     },
+
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id.toString();
@@ -32,6 +34,7 @@ export const authConfig = {
       }
       return token;
     },
+
     async session({ session, token }) {
       if (token) {
         session.user = {
@@ -46,5 +49,6 @@ export const authConfig = {
       return session;
     },
   },
+
   providers: [],
 } satisfies NextAuthConfig;

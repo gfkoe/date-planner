@@ -26,6 +26,8 @@ export default function LoginForm() {
           </div>
           <div className="text-3xl">Sign In</div>
           <div className="mt-2">
+            {/** this is so stupid i think maybe next-auth is not the way */}
+            <input type="hidden" name="redirectTo" value="/home" />
             <Label className="text-2xl" htmlFor="email">
               Email
             </Label>

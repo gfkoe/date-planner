@@ -25,11 +25,17 @@ export default function UserPage({ params }: RouteParams) {
     return (
       <div className="flex flex-col justify-center min-h-full">
         <div className="flex flex-auto justify-center items-center">
-          <div className="flex flex-col space-y-3">
-            <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-[250px]" />
-              <Skeleton className="h-4 w-[200px]" />
+          <div className="w-2/5 h-auto">
+            <div className="border border-black rounded-lg py-5 px-5">
+              <div className="flex flex-wrap justify-between">
+                <div className="sm:text-lg md:text-2xl lg:text-2xl truncate">
+                  <Skeleton className="h-4 w-[200px]" />
+                </div>
+              </div>
+              <hr className="my-2 border-black" />
+              <div className="truncate text-ellipsis overflow-hidden whitespace-nowrap">
+                <Skeleton className="h-4 w-[250px]" />
+              </div>
             </div>
           </div>
         </div>

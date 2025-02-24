@@ -50,7 +50,7 @@ export async function AppSidebar() {
                 <form
                   action={async () => {
                     "use server";
-                    await signOut();
+                    await signOut({ redirectTo: "/login" });
                   }}
                 >
                   <SidebarMenuButton>
