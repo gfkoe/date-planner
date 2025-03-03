@@ -32,7 +32,12 @@ export default function UserInfo({ userData }: UserInfoProps) {
     };
     const fetchFriends = async () => {
       try {
-        const res = await fetch(`/api/users/${userData.id}/friends`);
+        const res = await fetch(`/api/users/${userData.id}/friends`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         const data = await res.json();
         setFriendList(data);
       } catch (error) {
@@ -47,13 +52,24 @@ export default function UserInfo({ userData }: UserInfoProps) {
 
   const sendFriendRequest = async () => {
     try {
-      await fetch(`/api/users/${userData.id}/friends/add`, {
+      await fetch(`/api/users/${userData.id}/friends`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
       setFriendshipStatus("pending");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const acceptFriendRequest = async () => {
+    try {
+      await fetch(`/api/users/${userData.id}/friends`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      });
     } catch (error) {
       console.error(error);
     }
@@ -84,6 +100,12 @@ export default function UserInfo({ userData }: UserInfoProps) {
               {friendshipStatus === "none" && <div>Send Friend Request</div>}
             </Button>
           )}
+          <Button
+            disabled={friendshipStatus !== "pending"}
+            onClick={acceptFriendRequest}
+          >
+            Accept Friend Request
+          </Button>
         </div>
         <hr className="my-2 border-black" />
         <div className="truncate text-ellipsis overflow-hidden whitespace-nowrap">
