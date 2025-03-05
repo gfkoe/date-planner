@@ -82,7 +82,7 @@ export default function UserInfo({ userData }: UserInfoProps) {
           <div className="sm:text-lg md:text-2xl lg:text-2xl truncate">
             {userData.firstName} {userData.lastName}
           </div>
-          {!isLoggedInUser && (
+          {!isLoggedInUser && friendshipStatus !== "accepted" && (
             <Button
               variant="outline"
               disabled={friendshipStatus === "pending"}
@@ -100,12 +100,15 @@ export default function UserInfo({ userData }: UserInfoProps) {
               {friendshipStatus === "none" && <div>Send Friend Request</div>}
             </Button>
           )}
-          <Button
-            disabled={friendshipStatus !== "pending"}
-            onClick={acceptFriendRequest}
-          >
-            Accept Friend Request
-          </Button>
+          {friendshipStatus === "pending" &&
+            userData.id === Number(session?.user?.id) && (
+              <Button
+                onClick={acceptFriendRequest}
+                disabled={friendshipStatus !== "pending"}
+              >
+                Accept Friend Request
+              </Button>
+            )}
         </div>
         <hr className="my-2 border-black" />
         <div className="truncate text-ellipsis overflow-hidden whitespace-nowrap">

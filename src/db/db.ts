@@ -75,23 +75,28 @@ export async function sendFriendRequest(userId: number, friendId: number) {
 
 //user is the person who is logged in
 export async function acceptFriendRequest(userId: number, friendId: number) {
-  await db
+  const updatedRows = await db
     .update(friendshipSchema)
     .set({ status: "accepted" })
     .where(
       and(
-        eq(friendshipSchema.userId, friendId),
-        eq(friendshipSchema.friendId, userId),
+        eq(friendshipSchema.userId, userId), // Request sender
+        eq(friendshipSchema.friendId, friendId), // Request recipient
+        eq(friendshipSchema.status, "pending"),
       ),
     );
 
+  if (updatedRows.rowCount === 0) {
+    throw new Error("Friend request not found or already accepted.");
+  }
+
+  // Add reciprocal friendship
   await db.insert(friendshipSchema).values({
-    userId,
-    friendId,
+    userId: friendId,
+    friendId: userId,
     status: "accepted",
   });
 }
-
 //user is the person who is logged in
 export async function getFriendshipStatus(userId: number, friendId: number) {
   const [friendship] = await db

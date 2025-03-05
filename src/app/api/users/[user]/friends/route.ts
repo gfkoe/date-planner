@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getFriends, findUserById, sendFriendRequest } from "@/db/db";
+import {
+  getFriends,
+  findUserById,
+  sendFriendRequest,
+  acceptFriendRequest,
+} from "@/db/db";
 import nodemailer from "nodemailer";
 import { auth } from "@/auth";
 
@@ -78,4 +83,19 @@ export const PUT = async (_request: NextRequest, { params }: RouteParams) => {
 
   //user who sent req
   const { user } = await params;
+  const userToFriendId = Number(user);
+
+  if (userId === userToFriendId) {
+    return NextResponse.json("You can't friend yourself", { status: 400 });
+  }
+
+  try {
+    await acceptFriendRequest(userId, userToFriendId);
+    return NextResponse.json("Friend request accepted", { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json("Failed to accept friend request", {
+      status: 500,
+    });
+  }
 };
